@@ -12,6 +12,8 @@ app.use(morgan("dev"));
 // app.use(morgan('common'));
 app.use(helmet());
 app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // init database
 require("./dbs/init.mongodb");
@@ -19,9 +21,7 @@ const { checkOverload } = require("./helpers/check.connect");
 checkOverload();
 
 // init routes
-app.get("/", (req, res) => {
-  return res.status(200).json({ message: "Hello World" });
-});
+app.use("", require("./routes"));
 
 // init error handling
 
