@@ -3,7 +3,6 @@
 const shopModel = require("../models/shop.model");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const forge = require("node-forge");
 const KeyTokenService = require("./keyToken.service");
 const { createTokenPair } = require("../auth/authUtils");
 const { getInfoData } = require("../utils");
@@ -36,9 +35,17 @@ class AccessService {
 
       if (newShop) {
         // create a privateKey, publicKey
-        const keypair = forge.pki.rsa.generateKeyPair({ bits: 4096 });
-        const privateKey = forge.pki.privateKeyToPem(keypair.privateKey);
-        const publicKey = forge.pki.publicKeyToPem(keypair.publicKey);
+        const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
+          modulusLength: 4096,
+          publicKeyEncoding: {
+            type: "pkcs1",
+            format: "pem",
+          },
+          privateKeyEncoding: {
+            type: "pkcs1",
+            format: "pem",
+          },
+        });
 
         console.log(privateKey, publicKey); // save these keys to the collection KeyStore
 

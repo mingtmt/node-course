@@ -22,10 +22,6 @@ var apiKeySchema = new Schema(
       required: true,
       enum: ["0000", "1111", "2222"],
     },
-    password: {
-      type: String,
-      required: true,
-    },
   },
   {
     timestamps: true,
